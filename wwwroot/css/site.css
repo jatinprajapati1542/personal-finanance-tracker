@@ -1,0 +1,317 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f7fb;
+    color: #212529;
+}
+
+/* =========================
+   APP WRAPPER
+   ========================= */
+
+.app-wrapper {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background-color: #1f2937;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    z-index: 1050;
+}
+
+.sidebar-header {
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 22px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-brand {
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 19px;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.sidebar-brand i {
+    font-size: 24px;
+}
+
+
+/* =========================
+   SIDEBAR NAVIGATION
+   ========================= */
+
+.sidebar-nav {
+    flex: 1;
+
+    padding: 20px 12px;
+}
+
+.sidebar-link {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 12px 14px;
+
+    margin-bottom: 5px;
+
+    color: #d1d5db;
+
+    text-decoration: none;
+
+    border: none;
+    background: transparent;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.sidebar-link:hover {
+    background-color: #374151;
+    color: #ffffff;
+}
+
+.sidebar-link i {
+    width: 20px;
+    font-size: 17px;
+}
+
+.sidebar-divider {
+    height: 1px;
+
+    background-color: rgba(255, 255, 255, 0.1);
+
+    margin: 15px 8px;
+}
+
+
+/* =========================
+   SIDEBAR FOOTER
+   ========================= */
+
+.sidebar-footer {
+    padding: 12px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-footer form {
+    margin: 0;
+}
+
+
+/* =========================
+   MAIN WRAPPER
+   ========================= */
+
+.main-wrapper {
+    margin-left: 250px;
+
+    width: calc(100% - 250px);
+
+    min-height: 100vh;
+}
+
+
+/* =========================
+   TOP HEADER
+   ========================= */
+
+.top-header {
+    height: 70px;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+/* =========================
+   USER SECTION
+   ========================= */
+
+.user-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+
+    color: #212529;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background-color: #e9ecef;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+.user-details {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+
+    font-size: 14px;
+}
+
+.user-details small {
+    color: #6c757d;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+
+.main-content {
+    padding: 30px;
+}
+
+
+/* =========================
+   SIDEBAR TOGGLE
+   ========================= */
+
+.sidebar-toggle {
+    font-size: 24px;
+
+    margin-right: 10px;
+
+    border: none;
+}
+
+
+/* =========================
+   MOBILE OVERLAY
+   ========================= */
+
+.sidebar-overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.45);
+
+    z-index: 1040;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 991.98px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+
+        transition: transform 0.25s ease;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-wrapper {
+        margin-left: 0;
+
+        width: 100%;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .top-header {
+        padding: 0 20px;
+    }
+}
+
+
+@media (max-width: 575.98px) {
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .top-header {
+        height: 60px;
+    }
+}

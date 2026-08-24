@@ -1,0 +1,349 @@
+@model IEnumerable<personal_finance_Tracker.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Expenses";
+
+    var categories =
+        ViewBag.Categories
+        as List<personal_finance_Tracker.Models.Category>
+        ?? new List<personal_finance_Tracker.Models.Category>();
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                Expenses
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage your expense transactions.
+            </p>
+
+        </div>
+
+
+        <div class="d-flex gap-2">
+
+            <a asp-action="CreateCategory" class="btn btn-outline-primary">
+
+                <i class="bi bi-tags me-1"></i>
+
+                Categories
+
+            </a>
+
+
+            <a asp-action="Create" class="btn btn-danger">
+
+                <i class="bi bi-plus-lg me-1"></i>
+
+                Add Expense
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Total Expense -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Total Expense
+                            </p>
+
+                            <h3 class="fw-bold text-danger mb-0">
+
+                                ₹@Convert.ToDecimal(
+                                                                    ViewBag.TotalExpense
+                                                                ).ToString("N2")
+
+                            </h3>
+
+                        </div>
+
+
+                        <div class="fs-2 text-danger">
+
+                            <i class="bi bi-arrow-up-circle"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Filters -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form asp-action="Index" method="get">
+
+                <div class="row g-3">
+
+                    <!-- Search -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Search
+                        </label>
+
+                        <input type="text" name="search" value="@ViewBag.Search" class="form-control"
+                               placeholder="Search description..." />
+
+                    </div>
+
+
+                    <!-- Category -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select name="categoryId" class="form-select">
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                            @foreach (var category in categories)
+                            {
+                                if (ViewBag.CategoryId == category.Id)
+                                {
+                                    <option value="@category.Id" selected>
+                                        @category.Name
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">
+                                        @category.Name
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- From Date -->
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+                            From Date
+                        </label>
+
+                        <input type="date" name="fromDate" value="@ViewBag.FromDate" class="form-control" />
+
+                    </div>
+
+
+                    <!-- To Date -->
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+                            To Date
+                        </label>
+
+                        <input type="date" name="toDate" value="@ViewBag.ToDate" class="form-control" />
+
+                    </div>
+
+
+                    <!-- Search Button -->
+
+                    <div class="col-md-1 d-flex align-items-end">
+
+                        <button type="submit" class="btn btn-primary w-100">
+
+                            <i class="bi bi-search"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-3">
+
+                    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+
+                        <i class="bi bi-x-circle me-1"></i>
+
+                        Clear Filters
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Expense Table -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Date</th>
+
+                                <th>Category</th>
+
+                                <th>Description</th>
+
+                                <th>Amount</th>
+
+                                <th class="text-end">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @item.TransactionDate.ToString("dd MMM yyyy")
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="badge bg-danger-subtle text-danger">
+
+                                            <i class="bi bi-tag me-1"></i>
+
+                                            @item.Category?.Name
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.Description)
+                                            ? "-"
+                                            : item.Description)
+
+                                    </td>
+
+
+                                    <td class="fw-semibold text-danger">
+
+                                        - ₹@item.Amount.ToString("N2")
+
+                                    </td>
+
+
+                                    <td class="text-end">
+
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </a>
+
+
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <i class="bi bi-wallet2 fs-1 text-muted"></i>
+
+                    <h5 class="mt-3">
+                        No expense records found
+                    </h5>
+
+                    <p class="text-muted">
+                        Try changing your filters or add a new expense.
+                    </p>
+
+                    <a asp-action="Create" class="btn btn-danger">
+
+                        <i class="bi bi-plus-lg me-1"></i>
+
+                        Add Expense
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

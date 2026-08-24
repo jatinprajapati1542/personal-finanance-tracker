@@ -1,0 +1,182 @@
+@model personal_finance_Tracker.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Expense Categories";
+
+    var categories =
+        ViewBag.Categories
+        as List<personal_finance_Tracker.Models.Category>
+        ?? new List<personal_finance_Tracker.Models.Category>();
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Expense Categories
+        </h2>
+
+        <p class="text-muted">
+            Create and manage your expense categories.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- Create Category -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+                        Add Category
+                    </h5>
+
+
+                    <form asp-action="CreateCategory"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="Name"
+                                   class="form-label">
+                                Category Name
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="Example: Groceries" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-plus-lg me-1"></i>
+
+                            Add Category
+
+                        </button>
+
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary ms-2">
+
+                            Back
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Category List -->
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+                        Your Expense Categories
+                    </h5>
+
+
+                    @if (categories.Any())
+                    {
+                        <div class="list-group">
+
+                            @foreach (var category in categories)
+                            {
+                                <div class="list-group-item
+                                            d-flex
+                                            justify-content-between
+                                            align-items-center">
+
+                                    <div>
+
+                                        <i class="bi bi-tag text-danger me-2"></i>
+
+                                        @category.Name
+
+                                    </div>
+
+
+                                    <form asp-action="DeleteCategory"
+                                          method="post"
+                                          class="m-0">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@category.Id" />
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Are you sure you want to delete this category?');">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+
+                            <i class="bi bi-tags fs-1 text-muted"></i>
+
+                            <p class="text-muted mt-2 mb-0">
+                                You don't have any expense categories yet.
+                            </p>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

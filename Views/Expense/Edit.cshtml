@@ -1,0 +1,164 @@
+@model personal_finance_Tracker.Models.Transaction
+
+@{
+    ViewData["Title"] = "Edit Expense";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Edit Expense</h2>
+
+        <p class="text-muted">
+            Update your expense transaction.
+        </p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        <!-- Amount -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Amount"
+                                   class="form-label">
+                                Amount
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    ₹
+                                </span>
+
+                                <input asp-for="Amount"
+                                       class="form-control"
+                                       placeholder="0.00" />
+
+                            </div>
+
+                            <span asp-validation-for="Amount"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Category -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="CategoryId"
+                                   class="form-label">
+                                Category
+                            </label>
+
+                            <select asp-for="CategoryId"
+                                    class="form-select"
+                                    asp-items="ViewBag.CategoryId">
+
+                                <option value="">
+                                    -- Select Category --
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="CategoryId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Description -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Description"
+                                   class="form-label">
+                                Description
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Example: Grocery shopping">
+                            </textarea>
+
+                            <span asp-validation-for="Description"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Date -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="TransactionDate"
+                                   class="form-label">
+                                Date
+                            </label>
+
+                            <input asp-for="TransactionDate"
+                                   type="date"
+                                   class="form-control" />
+
+                            <span asp-validation-for="TransactionDate"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-save me-1"></i>
+
+                            Update Expense
+
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary ms-2">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
