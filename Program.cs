@@ -75,8 +75,26 @@ app.UseAuthorization();
 
 // MVC routing
 app.MapControllerRoute(
+    name: "login",
+    pattern: "login",
+    defaults: new
+    {
+        area = "Identity",
+        page = "/Account/Login"
+    });
+
+app.MapControllerRoute(
+    name: "register",
+    pattern: "register",
+    defaults: new
+    {
+        area = "Identity",
+        page = "/Account/Register"
+    });
+    
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 // Identity Razor Pages
 app.MapRazorPages();

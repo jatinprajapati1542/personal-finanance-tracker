@@ -20,137 +20,129 @@ build_property.TargetFrameworkVersion = v10.0
 build_property.EntryPointFilePath = 
 build_property.RootNamespace = personal_finance_Tracker
 build_property.RootNamespace = personal_finance_Tracker
-build_property.ProjectDir = c:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\
+build_property.ProjectDir = C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker
+build_property.MSBuildProjectDirectory = C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Logout.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Shared/_IdentityLayout.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/Shared/_IdentityLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9JZGVudGl0eUxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Dashboard/Index.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Dashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Create.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/CreateCategory.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/CreateCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxDcmVhdGVDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Delete.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Edit.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Index.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Expense/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Create.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jb21lXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/CreateCategory.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/CreateCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jb21lXENyZWF0ZUNhdGVnb3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Edit.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jb21lXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Index.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Income/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jb21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/ChangePassword.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/Edit.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/Index.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Profile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/Error.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_IdentityLayout.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_IdentityLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9JZGVudGl0eUxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Transaction/Index.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Transaction/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY3Rpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/_ViewImports.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/_ViewStart.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_Layout.cshtml]
+[C:/Users/jignesh/source/repos/personal_finance_Tracker/personal_finance_Tracker/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-f9lh6c57dj

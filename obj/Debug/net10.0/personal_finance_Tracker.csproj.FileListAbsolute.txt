@@ -445,3 +445,4 @@ C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\
 C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\obj\Debug\net10.0\ref\personal_finance_Tracker.dll
 C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\obj\Debug\net10.0\compressed\zqw93d51tv-{0}-dvp0oirgt4-dvp0oirgt4.gz
 C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\obj\Debug\net10.0\compressed\uujfgx9gpz-{0}-ao3hccqmao-ao3hccqmao.gz
+C:\Users\jignesh\source\repos\personal_finance_Tracker\personal_finance_Tracker\obj\Debug\net10.0\personal_finance_Tracker.sourcelink.json

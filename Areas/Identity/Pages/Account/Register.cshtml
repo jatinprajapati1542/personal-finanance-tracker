@@ -1,145 +1,175 @@
 ﻿@page
+
 @model personal_finance_Tracker.Areas.Identity.Pages.Account.RegisterModel
 
 @{
     ViewData["Title"] = "Register";
 }
 
-<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+<div class="text-center">
 
-    <div class="card shadow-sm border-0"
-         style="width: 100%; max-width: 450px;">
-
-        <div class="card-body p-4 p-md-5">
-
-            <div class="text-center mb-4">
-
-                <div class="mb-3">
-                    <i class="bi bi-wallet2 fs-1 text-primary"></i>
-                </div>
-
-                <h2 class="fw-bold">
-                    Create Account
-                </h2>
-
-                <p class="text-muted">
-                    Start tracking your income and expenses.
-                </p>
-
-            </div>
-
-            <form method="post">
-
-                <div asp-validation-summary="ModelOnly"
-                     class="text-danger mb-3">
-                </div>
-
-                <!-- Full Name -->
-                <div class="form-floating mb-3">
-
-                    <input asp-for="Input.FullName"
-                           class="form-control"
-                           placeholder="Full Name"
-                           autocomplete="name" />
-
-                    <label asp-for="Input.FullName">
-                        Full Name
-                    </label>
-
-                    <span asp-validation-for="Input.FullName"
-                          class="text-danger">
-                    </span>
-
-                </div>
-
-
-                <!-- Email -->
-                <div class="form-floating mb-3">
-
-                    <input asp-for="Input.Email"
-                           class="form-control"
-                           placeholder="name@example.com"
-                           autocomplete="username" />
-
-                    <label asp-for="Input.Email">
-                        Email
-                    </label>
-
-                    <span asp-validation-for="Input.Email"
-                          class="text-danger">
-                    </span>
-
-                </div>
-
-
-                <!-- Password -->
-                <div class="form-floating mb-3">
-
-                    <input asp-for="Input.Password"
-                           class="form-control"
-                           placeholder="Password"
-                           autocomplete="new-password" />
-
-                    <label asp-for="Input.Password">
-                        Password
-                    </label>
-
-                    <span asp-validation-for="Input.Password"
-                          class="text-danger">
-                    </span>
-
-                </div>
-
-
-                <!-- Confirm Password -->
-                <div class="form-floating mb-3">
-
-                    <input asp-for="Input.ConfirmPassword"
-                           class="form-control"
-                           placeholder="Confirm Password"
-                           autocomplete="new-password" />
-
-                    <label asp-for="Input.ConfirmPassword">
-                        Confirm Password
-                    </label>
-
-                    <span asp-validation-for="Input.ConfirmPassword"
-                          class="text-danger">
-                    </span>
-
-                </div>
-
-
-                <button type="submit"
-                        class="btn btn-primary w-100 py-2">
-
-                    Create Account
-
-                </button>
-
-            </form>
-
-
-            <div class="text-center mt-4">
-
-                <span class="text-muted">
-                    Already have an account?
-                </span>
-
-                <a asp-page="./Login"
-                   class="text-decoration-none">
-                    Login
-                </a>
-
-            </div>
-
-        </div>
-
+    <!-- Logo -->
+    <div class="brand-icon">
+        <i class="bi bi-wallet2"></i>
     </div>
+
+    <!-- Heading -->
+    <h1 class="brand-title">
+        Create Account
+    </h1>
+
+    <p class="brand-subtitle mb-4">
+        Start managing your finances today
+    </p>
 
 </div>
 
-@section Scripts
-{
+<form method="post">
+
+    <!-- Validation -->
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert">
+    </div>
+
+    <!-- Full Name -->
+    <div class="form-floating mb-3">
+
+        <input asp-for="Input.FullName" class="form-control" placeholder="Full Name" autocomplete="name" />
+
+        <label asp-for="Input.FullName">
+            Full Name
+        </label>
+
+        <span asp-validation-for="Input.FullName" class="text-danger small">
+        </span>
+
+    </div>
+
+    <!-- Email -->
+    <div class="form-floating mb-3">
+
+        <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" autocomplete="username" />
+
+        <label asp-for="Input.Email">
+            Email address
+        </label>
+
+        <span asp-validation-for="Input.Email" class="text-danger small">
+        </span>
+
+    </div>
+
+    <!-- Password -->
+    <div class="position-relative mb-3">
+
+        <div class="form-floating">
+
+            <input asp-for="Input.Password" type="password" class="form-control pe-5" id="registerPassword"
+                   placeholder="Password" autocomplete="new-password" />
+
+            <label asp-for="Input.Password">
+                Password
+            </label>
+
+        </div>
+
+        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 border-0"
+                onclick="togglePassword('registerPassword', 'registerPasswordIcon')" aria-label="Show or hide password">
+
+            <i id="registerPasswordIcon" class="bi bi-eye text-muted"></i>
+
+        </button>
+
+        <span asp-validation-for="Input.Password" class="text-danger small">
+        </span>
+
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="position-relative mb-3">
+
+        <div class="form-floating">
+
+            <input asp-for="Input.ConfirmPassword" type="password" class="form-control pe-5" id="confirmPassword"
+                   placeholder="Confirm Password" autocomplete="new-password" />
+
+            <label asp-for="Input.ConfirmPassword">
+                Confirm password
+            </label>
+
+        </div>
+
+        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 border-0"
+                onclick="togglePassword('confirmPassword', 'confirmPasswordIcon')" aria-label="Show or hide password">
+
+            <i id="confirmPasswordIcon" class="bi bi-eye text-muted"></i>
+
+        </button>
+
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger small">
+        </span>
+
+    </div>
+
+    <!-- Password information -->
+    <div class="d-flex align-items-start gap-2 text-muted small mb-4">
+
+        <i class="bi bi-info-circle mt-1"></i>
+
+        <span>
+            Password must be at least 6 characters and include
+            uppercase, lowercase, and a number.
+        </span>
+
+    </div>
+
+    <!-- Register -->
+    <button type="submit" class="btn btn-primary w-100 py-2">
+
+        <i class="bi bi-person-plus me-2"></i>
+        Create Account
+
+    </button>
+
+</form>
+
+<!-- Login -->
+<div class="text-center mt-4">
+
+    <span class="text-muted small">
+        Already have an account?
+    </span>
+
+    <a asp-page="./Login" class="text-decoration-none fw-semibold small ms-1">
+        Sign in
+    </a>
+
+</div>
+
+@section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function togglePassword(inputId, iconId) {
+
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+
+            } else {
+
+                input.type = "password";
+
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+
+            }
+        }
+    </script>
 }
