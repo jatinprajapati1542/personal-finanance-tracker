@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using personal_finance_Tracker.Data;
 
@@ -11,9 +12,11 @@ using personal_finance_Tracker.Data;
 namespace personal_finance_Tracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260826133824_AddBudget")]
+    partial class AddBudget
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,8 +260,7 @@ namespace personal_finance_Tracker.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId", "CategoryId", "Month")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
                 });

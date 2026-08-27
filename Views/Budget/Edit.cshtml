@@ -1,0 +1,194 @@
+    @model personal_finance_Tracker.Models.Budget
+
+@{
+    ViewData["Title"] = "Edit Budget";
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <h2 class="fw-bold mb-1">
+            Edit Budget
+        </h2>
+
+        <p class="text-muted mb-0">
+            Update your monthly spending limit.
+        </p>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.Id" />
+
+
+                        <!-- Validation -->
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger"
+                             role="alert">
+                        </div>
+
+
+                        <!-- Category -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Category
+                            </label>
+
+                            <select name="categoryId"
+                                    class="form-select"
+                                    required>
+
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    if (category.Id == Model.CategoryId)
+                                    {
+                                        <option value="@category.Id"
+                                                selected>
+                                            @category.Name
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.Id">
+                                            @category.Name
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Amount -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Budget Amount
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    ₹
+                                </span>
+
+                                <input name="amount"
+                                       type="number"
+                                       step="0.01"
+                                       min="0.01"
+                                       class="form-control"
+                                       value="@Model.Amount"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Month -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Budget Month
+                            </label>
+
+                            <input name="month"
+                                   type="month"
+                                   class="form-control"
+                                   value="@Model.Month.ToString("yyyy-MM")"
+                                   required />
+
+                        </div>
+
+
+                        <!-- Buttons -->
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-check-circle me-1"></i>
+                                Save Changes
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Information -->
+
+        <div class="col-lg-5 col-xl-4 mt-4 mt-lg-0">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="bi bi-info-circle text-primary me-2"></i>
+
+                        Budget information
+
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+
+                        Changing the budget amount does not change
+                        your existing transactions. Your spending will
+                        continue to be calculated automatically.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

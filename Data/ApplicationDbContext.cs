@@ -17,9 +17,21 @@ public class ApplicationDbContext
 
     public DbSet<Transaction> Transactions { get; set; }
 
+    public DbSet<Budget> Budgets { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+
+        builder.Entity<Budget>()
+            .HasIndex(b => new
+            {
+                b.UserId,
+                b.CategoryId,
+                b.Month
+            })
+            .IsUnique();
 
         builder.Entity<Category>()
             .HasOne(c => c.User)
@@ -42,5 +54,22 @@ public class ApplicationDbContext
         builder.Entity<Transaction>()
             .Property(t => t.Amount)
             .HasPrecision(18, 2);
+
+
+        builder.Entity<Budget>()
+            .HasOne(b => b.User)
+            .WithMany(u => u.Budgets)
+            .HasForeignKey(b => b.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Budget>()
+            .HasOne(b => b.Category)
+            .WithMany()
+            .HasForeignKey(b => b.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Budget>()
+            .Property(b => b.Amount)
+            .HasPrecision(18, 2);
     }
-}   
+}

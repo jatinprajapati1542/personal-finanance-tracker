@@ -1,0 +1,219 @@
+@model personal_finance_Tracker.Models.Budget
+
+@{
+    ViewData["Title"] = "Create Budget";
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <h2 class="fw-bold mb-1">
+            Create Budget
+        </h2>
+
+        <p class="text-muted mb-0">
+            Set a spending limit for an expense category.
+        </p>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <!-- Validation -->
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger"
+                             role="alert">
+                        </div>
+
+
+                        <!-- Category -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Category
+                            </label>
+
+                            <select name="categoryId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Select expense category
+                                </option>
+
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">
+                                        @category.Name
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span class="text-danger"
+                                  asp-validation-for="CategoryId">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Amount -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Budget Amount
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    ₹
+                                </span>
+
+                                <input name="amount"
+                                       type="number"
+                                       step="0.01"
+                                       min="0.01"
+                                       class="form-control"
+                                       placeholder="5000"
+                                       required />
+
+                            </div>
+
+                            <span class="text-danger"
+                                  asp-validation-for="Amount">
+                            </span>
+
+                            <div class="form-text">
+                                Enter the maximum amount you want to spend.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Month -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Budget Month
+                            </label>
+
+                            <input name="month"
+                                   type="month"
+                                   class="form-control"
+                                   value="@DateTime.Now.ToString("yyyy-MM")"
+                                   required />
+
+                            <div class="form-text">
+                                This budget will apply only to this month.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-plus-circle me-1"></i>
+                                Create Budget
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Information Card -->
+        <div class="col-lg-5 col-xl-4 mt-4 mt-lg-0">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="bg-primary bg-opacity-10
+                                    text-primary rounded-circle
+                                    p-2 me-3">
+
+                            <i class="bi bi-info-circle fs-5"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold mb-0">
+                            How budgets work
+                        </h5>
+
+                    </div>
+
+                    <p class="text-muted small mb-3">
+                        Your budget is automatically compared with
+                        your expense transactions.
+                    </p>
+
+                    <ul class="text-muted small ps-3 mb-0">
+
+                        <li class="mb-2">
+                            Choose an expense category.
+                        </li>
+
+                        <li class="mb-2">
+                            Set your monthly spending limit.
+                        </li>
+
+                        <li class="mb-2">
+                            Your expenses are calculated automatically.
+                        </li>
+
+                        <li>
+                            You will see how much of your budget remains.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

@@ -2,20 +2,30 @@
 
 @{
     ViewData["Title"] = "Dashboard";
+
+    var budgetPercentage = Model.TotalBudget > 0
+        ? (Model.TotalBudgetSpent / Model.TotalBudget) * 100
+        : 0;
+
+    var budgetProgress = Math.Min(budgetPercentage, 100);
+
+    var budgetProgressClass =
+        budgetPercentage >= 100
+            ? "bg-danger"
+            : budgetPercentage >= 80
+                ? "bg-warning"
+                : "bg-success";
 }
 
 <div class="container-fluid">
 
-    <!-- Header -->
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
 
-    <div class="d-flex justify-content-between
-        align-items-center
-        flex-wrap
-        gap-3
-        mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
         <div>
-
             <h2 class="fw-bold mb-1">
                 Dashboard
             </h2>
@@ -23,9 +33,7 @@
             <p class="text-muted mb-0">
                 Here's an overview of your finances.
             </p>
-
         </div>
-
 
         <!-- Quick Actions -->
 
@@ -38,7 +46,6 @@
                 Add Income
 
             </a>
-
 
             <a asp-controller="Expense" asp-action="Create" class="btn btn-danger">
 
@@ -53,11 +60,13 @@
     </div>
 
 
-    <!-- Summary Cards -->
+    <!-- ===================================================== -->
+    <!-- SUMMARY CARDS -->
+    <!-- ===================================================== -->
 
     <div class="row g-4 mb-4">
 
-        <!-- Income -->
+        <!-- TOTAL INCOME -->
 
         <div class="col-xl-3 col-md-6">
 
@@ -65,9 +74,7 @@
 
                 <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
 
@@ -99,7 +106,7 @@
         </div>
 
 
-        <!-- Expense -->
+        <!-- TOTAL EXPENSE -->
 
         <div class="col-xl-3 col-md-6">
 
@@ -107,9 +114,7 @@
 
                 <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
 
@@ -141,7 +146,7 @@
         </div>
 
 
-        <!-- Balance -->
+        <!-- BALANCE -->
 
         <div class="col-xl-3 col-md-6">
 
@@ -149,9 +154,7 @@
 
                 <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
 
@@ -188,7 +191,7 @@
         </div>
 
 
-        <!-- Transactions -->
+        <!-- TRANSACTIONS -->
 
         <div class="col-xl-3 col-md-6">
 
@@ -196,9 +199,7 @@
 
                 <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
 
@@ -232,11 +233,15 @@
     </div>
 
 
-    <!-- Chart + Recent Transactions -->
+    <!-- ===================================================== -->
+    <!-- MAIN DASHBOARD ROW -->
+    <!-- ===================================================== -->
 
-    <div class="row g-4">
+    <div class="row g-4 mb-4">
 
-        <!-- Chart -->
+        <!-- ================================================= -->
+        <!-- INCOME VS EXPENSE -->
+        <!-- ================================================= -->
 
         <div class="col-lg-5">
 
@@ -244,21 +249,21 @@
 
                 <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center
-                        mb-3">
+                    <div class="mb-3">
 
-                        <h5 class="fw-bold mb-0">
+                        <h5 class="fw-bold mb-1">
                             Income vs Expense
                         </h5>
+
+                        <p class="text-muted small mb-0">
+                            Overall financial distribution
+                        </p>
 
                     </div>
 
                     <div style="height:300px;">
 
-                        <canvas id="incomeExpenseChart">
-                        </canvas>
+                        <canvas id="incomeExpenseChart"></canvas>
 
                     </div>
 
@@ -268,176 +273,242 @@
 
         </div>
 
+        <div class="col-lg-7">
 
-        <!-- Recent Transactions -->
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <h5 class="fw-bold mb-1">
+                            Monthly Income & Expense
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Financial activity over the last 6 months
+                        </p>
+
+                    </div>
+
+                    <div style="height:300px;">
+
+                        <canvas id="monthlyFinanceChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================================================= -->
+        <!-- BUDGET SUMMARY -->
+        <!-- ================================================= -->
 
         <div class="col-lg-7">
 
             <div class="card border-0 shadow-sm h-100">
 
-                <div class="card-body p-0">
+                <div class="card-body">
 
-                    <div class="d-flex
-                        justify-content-between
-                        align-items-center
-                        p-4">
+                    <div class="d-flex justify-content-between
+                        align-items-center mb-4">
 
-                        <h5 class="fw-bold mb-0">
-                            Recent Transactions
-                        </h5>
+                        <div>
 
-                        <a asp-controller="Transaction" asp-action="Index" class="btn btn-sm btn-outline-primary">
+                            <h5 class="fw-bold mb-1">
+                                Monthly Budget
+                            </h5>
 
-                            View All
+                            <p class="text-muted small mb-0">
+                                Current month's budget summary
+                            </p>
+
+                        </div>
+
+                        <a asp-controller="Budget" asp-action="Index" class="btn btn-sm btn-outline-primary">
+
+                            Manage Budgets
 
                         </a>
 
                     </div>
 
 
-                    @if (Model.RecentTransactions.Any())
+                    @if (Model.TotalBudget > 0)
                     {
-                        <div class="table-responsive">
 
-                            <table class="table table-hover
-                                align-middle mb-0">
+                        <!-- Budget Numbers -->
 
-                                <thead class="table-light">
+                        <div class="row g-3 mb-4">
 
-                                    <tr>
+                            <div class="col-md-4">
 
-                                        <th class="ps-4">
-                                            Date
-                                        </th>
+                                <div class="bg-light rounded p-3">
 
-                                        <th>
-                                            Type
-                                        </th>
+                                    <small class="text-muted">
+                                        Budget
+                                    </small>
 
-                                        <th>
-                                            Category
-                                        </th>
+                                    <h5 class="fw-bold mb-0">
+                                        ₹@Model.TotalBudget.ToString("N2")
+                                    </h5>
 
-                                        <th class="text-end pe-4">
-                                            Amount
-                                        </th>
+                                </div>
 
-                                    </tr>
-
-                                </thead>
+                            </div>
 
 
-                                <tbody>
+                            <div class="col-md-4">
 
-                                    @foreach (var transaction
-                                        in Model.RecentTransactions)
-                                    {
-                                        <tr>
+                                <div class="bg-light rounded p-3">
 
-                                            <td class="ps-4">
+                                    <small class="text-muted">
+                                        Spent
+                                    </small>
 
-                                                @transaction.TransactionDate.ToString("dd MMM yyyy")
+                                    <h5 class="fw-bold text-danger mb-0">
+                                        ₹@Model.TotalBudgetSpent.ToString("N2")
+                                    </h5>
 
-                                            </td>
+                                </div>
 
-
-                                            <td>
-
-                                                @if (transaction.Type == personal_finance_Tracker.Models.TransactionType.Income)
-                                                {
-                                                    <span class="badge
-                                                        bg-success-subtle
-                                                        text-success">
-
-                                                        <i class="bi
-                                                        bi-arrow-down
-                                                        me-1"></i>
-
-                                                        Income
-
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge
-                                                        bg-danger-subtle
-                                                        text-danger">
-
-                                                        <i class="bi
-                                                        bi-arrow-up
-                                                        me-1"></i>
-
-                                                        Expense
-
-                                                    </span>
-                                                }
-
-                                            </td>
+                            </div>
 
 
-                                            <td>
+                            <div class="col-md-4">
 
-                                                @(transaction.Category?.Name ?? "-")
+                                <div class="bg-light rounded p-3">
 
-                                            </td>
+                                    <small class="text-muted">
+                                        Remaining
+                                    </small>
 
+                                    <h5 class="fw-bold
+                                        @(Model.TotalBudgetRemaining >= 0
+                                            ? "text-success"
+                                            : "text-danger")">
 
-                                            <td class="text-end pe-4">
+                                        ₹@Model.TotalBudgetRemaining.ToString("N2")
 
-                                                @if (transaction.Type ==
-                                                    personal_finance_Tracker.Models.TransactionType.Income)
-                                                {
-                                                    <span class="text-success
-                                                        fw-semibold">
+                                    </h5>
 
-                                                        + ₹@transaction.Amount.ToString("N2")
+                                </div>
 
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="text-danger
-                                                        fw-semibold">
-
-                                                        - ₹@transaction.Amount.ToString("N2")
-
-                                                    </span>
-                                                }
-
-                                            </td>
-
-                                        </tr>
-                                    }
-
-                                </tbody>
-
-                            </table>
+                            </div>
 
                         </div>
+
+
+                        <!-- Budget Progress -->
+
+                        <div class="mb-2">
+
+                            <div class="d-flex justify-content-between">
+
+                                <span class="small fw-semibold">
+                                    Overall Budget Usage
+                                </span>
+
+                                <span class="small fw-semibold">
+                                    @budgetPercentage.ToString("N0")%
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress mb-3" style="height: 10px;">
+
+                            <div class="progress-bar @budgetProgressClass" role="progressbar"
+                                 style="width: @budgetProgress%;">
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Budget Status -->
+
+                        @if (budgetPercentage >= 100)
+                        {
+                            <div class="alert alert-danger
+                                d-flex align-items-center
+                                mb-0">
+
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                                <div>
+                                    <strong>Budget exceeded.</strong>
+                                    You have spent more than your planned budget.
+                                </div>
+
+                            </div>
+                        }
+                        else if (budgetPercentage >= 80)
+                        {
+                            <div class="alert alert-warning
+                                d-flex align-items-center
+                                mb-0">
+
+                                <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                                <div>
+                                    <strong>Budget warning.</strong>
+                                    You are approaching your monthly budget.
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-success
+                                d-flex align-items-center
+                                mb-0">
+
+                                <i class="bi bi-check-circle-fill me-2"></i>
+
+                                <div>
+                                    <strong>Budget is healthy.</strong>
+                                    Your spending is currently under control.
+                                </div>
+
+                            </div>
+                        }
+
                     }
                     else
                     {
-                        <div class="text-center py-5 px-3">
 
-                            <i class="bi bi-receipt
+                        <!-- No Budget -->
+
+                        <div class="text-center py-4">
+
+                            <i class="bi bi-piggy-bank
                             fs-1
                             text-muted"></i>
 
                             <h6 class="mt-3">
-                                No transactions yet
+                                No budget set for this month
                             </h6>
 
                             <p class="text-muted mb-3">
-                                Add your first income or expense.
+                                Create a budget to start tracking your spending.
                             </p>
 
-                            <a asp-controller="Income" asp-action="Create" class="btn btn-primary">
+                            <a asp-controller="Budget" asp-action="Create" class="btn btn-primary">
 
-                                Add Transaction
+                                <i class="bi bi-plus-circle me-1"></i>
+
+                                Create Budget
 
                             </a>
 
                         </div>
+
                     }
 
                 </div>
@@ -448,26 +519,445 @@
 
     </div>
 
+
+    <!-- ===================================================== -->
+    <!-- BUDGET CATEGORY OVERVIEW -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between
+                align-items-center mb-4">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        Budget Overview
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Track your spending by category
+                    </p>
+
+                </div>
+
+                <a asp-controller="Budget" asp-action="Index" class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+
+            @if (Model.Budgets.Any())
+            {
+
+                <div class="row g-4">
+
+                    @foreach (var budget in Model.Budgets)
+                    {
+                        var percentage = Math.Min(
+                            budget.Percentage,
+                            100);
+
+                        var progressClass =
+                            budget.Percentage >= 100
+                                ? "bg-danger"
+                                : budget.Percentage >= 80
+                                    ? "bg-warning"
+                                    : "bg-success";
+
+
+                        <div class="col-xl-4 col-md-6">
+
+                            <div class="border rounded p-3 h-100">
+
+                                <!-- Category + Status -->
+
+                                <div class="d-flex
+                                    justify-content-between
+                                    align-items-center
+                                    mb-3">
+
+                                    <strong>
+                                        @budget.CategoryName
+                                    </strong>
+
+
+                                    @* @if (budget.Percentage >= 100)
+                                    {
+                                        <span class="badge
+                                            bg-danger-subtle
+                                            text-danger">
+
+                                            Exceeded
+
+                                        </span>
+                                    }
+                                    else if (budget.Percentage >= 80)
+                                    {
+                                        <span class="badge
+                                            bg-warning-subtle
+                                            text-warning">
+
+                                            Warning
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge
+                                            bg-success-subtle
+                                            text-success">
+
+                                            Healthy
+
+                                        </span>
+                                    } *@
+                                    @if (budget.Status == "Exceeded")
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            <i class="bi bi-exclamation-triangle me-1"></i>
+                                            Exceeded
+                                        </span>
+                                    }
+                                    else if (budget.Status == "Warning")
+                                    {
+                                        <span class="badge bg-warning-subtle text-warning">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            Warning
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success-subtle text-success">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Healthy
+                                        </span>
+                                    }
+
+                                </div>
+
+
+                                <!-- Amount -->
+
+                                <div class="d-flex
+                                    justify-content-between
+                                    mb-2">
+
+                                    <small class="text-muted">
+
+                                        ₹@budget.SpentAmount.ToString("N2")
+                                        /
+                                        ₹@budget.BudgetAmount.ToString("N2")
+
+                                    </small>
+
+                                    <small class="fw-semibold">
+
+                                        @budget.Percentage.ToString("N0")%
+
+                                    </small>
+
+                                </div>
+
+
+                                <!-- Progress -->
+
+                                <div class="progress" style="height: 8px;">
+
+                                    <div class="progress-bar @budget.ProgressClass" role="progressbar"
+                                         style="width: @percentage%;" aria-valuenow="@percentage" aria-valuemin="0"
+                                         aria-valuemax="100">
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Remaining -->
+
+                                <div class="mt-2">
+
+                                    @if (budget.RemainingAmount >= 0)
+                                    {
+                                        <small class="text-muted">
+
+                                            ₹@budget.RemainingAmount.ToString("N2")
+                                            remaining
+
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-danger">
+
+                                            ₹@Math.Abs(
+                                                                                                                                                                                                                                                                            budget.RemainingAmount
+                                                                                                                                                                                                                                                                        ).ToString("N2")
+                                            over budget
+
+                                        </small>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="text-center py-4">
+
+                    <i class="bi bi-piggy-bank
+                    fs-1
+                    text-muted"></i>
+
+                    <h6 class="mt-3">
+                        No budgets available
+                    </h6>
+
+                    <p class="text-muted">
+                        Create a budget to monitor your spending.
+                    </p>
+
+                    <a asp-controller="Budget" asp-action="Create" class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle me-1"></i>
+
+                        Create Budget
+
+                    </a>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- RECENT TRANSACTIONS -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-0">
+
+            <div class="d-flex
+                justify-content-between
+                align-items-center
+                p-4">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        Recent Transactions
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Your latest financial activity
+                    </p>
+
+                </div>
+
+                <a asp-controller="Transaction" asp-action="Index" class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+
+            @if (Model.RecentTransactions.Any())
+            {
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover
+                        align-middle
+                        mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th class="ps-4">
+                                    Date
+                                </th>
+
+                                <th>
+                                    Type
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th class="text-end pe-4">
+                                    Amount
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var transaction
+                                in Model.RecentTransactions)
+                            {
+
+                                <tr>
+
+                                    <td class="ps-4">
+
+                                        @transaction.TransactionDate.ToString("dd MMM yyyy")
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (transaction.Type ==
+                                            personal_finance_Tracker.Models.TransactionType.Income)
+                                        {
+                                            <span class="badge
+                                                bg-success-subtle
+                                                text-success">
+
+                                                <i class="bi bi-arrow-down me-1"></i>
+
+                                                Income
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge
+                                                bg-danger-subtle
+                                                text-danger">
+
+                                                <i class="bi bi-arrow-up me-1"></i>
+
+                                                Expense
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @(transaction.Category?.Name ?? "-")
+
+                                    </td>
+
+
+                                    <td class="text-end pe-4">
+
+                                        @if (transaction.Type ==
+                                            personal_finance_Tracker.Models.TransactionType.Income)
+                                        {
+                                            <span class="text-success fw-semibold">
+
+                                                + ₹@transaction.Amount.ToString("N2")
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger fw-semibold">
+
+                                                - ₹@transaction.Amount.ToString("N2")
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="text-center py-5 px-3">
+
+                    <i class="bi bi-receipt
+                    fs-1
+                    text-muted"></i>
+
+                    <h6 class="mt-3">
+                        No transactions yet
+                    </h6>
+
+                    <p class="text-muted mb-3">
+                        Add your first income or expense.
+                    </p>
+
+                    <a asp-controller="Income" asp-action="Create" class="btn btn-primary">
+
+                        Add Transaction
+
+                    </a>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
 </div>
 
 
-@section Scripts {
+<!-- ========================================================= -->
+<!-- CHART.JS -->
+<!-- ========================================================= -->
 
-    <!-- Chart.js -->
+@section Scripts {
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     <script>
 
+        // =====================================================
+        // INCOME VS EXPENSE DOUGHNUT
+        // =====================================================
+
         const income = @Model.ChartIncome;
+
         const expense = @Model.ChartExpense;
 
-        const ctx =
+        const incomeExpenseCtx =
         document.getElementById('incomeExpenseChart');
 
 
-        new Chart(ctx, {
+        new Chart(incomeExpenseCtx, {
 
         type: 'doughnut',
 
@@ -483,7 +973,9 @@
         data: [
         income,
         expense
-        ]
+        ],
+
+        borderWidth: 0
 
         }]
 
@@ -495,11 +987,132 @@
 
         maintainAspectRatio: false,
 
+        cutout: '65%',
+
+        plugins: {
+
+        legend: {
+
+        position: 'bottom',
+
+        labels: {
+
+        padding: 20
+
+        }
+
+        }
+
+        }
+
+        }
+
+        });
+
+
+        // =====================================================
+        // MONTHLY INCOME VS EXPENSE
+        // =====================================================
+
+        const chartMonths =
+        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ChartMonths));
+
+
+        const monthlyIncome =
+        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyIncome));
+
+
+        const monthlyExpense =
+        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyExpense));
+
+
+        const monthlyFinanceCtx =
+        document.getElementById('monthlyFinanceChart');
+
+
+        new Chart(monthlyFinanceCtx, {
+
+        type: 'bar',
+
+        data: {
+
+        labels: chartMonths,
+
+        datasets: [
+
+        {
+
+        label: 'Income',
+
+        data: monthlyIncome,
+
+        borderWidth: 1
+
+        },
+
+        {
+
+        label: 'Expense',
+
+        data: monthlyExpense,
+
+        borderWidth: 1
+
+        }
+
+        ]
+
+        },
+
+        options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        scales: {
+
+        y: {
+
+        beginAtZero: true,
+
+        ticks: {
+
+        callback: function (value) {
+
+        return '₹' +
+        Number(value).toLocaleString('en-IN');
+
+        }
+
+        }
+
+        }
+
+        },
+
         plugins: {
 
         legend: {
 
         position: 'bottom'
+
+        },
+
+        tooltip: {
+
+        callbacks: {
+
+        label: function (context) {
+
+        return context.dataset.label +
+        ': ₹' +
+        Number(context.raw)
+        .toLocaleString('en-IN');
+
+        }
+
+        }
 
         }
 
@@ -510,4 +1123,5 @@
         });
 
     </script>
+
 }
