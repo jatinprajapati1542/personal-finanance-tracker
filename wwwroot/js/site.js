@@ -28,3 +28,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const currentPath = window.location.pathname.toLowerCase();
+
+    document.querySelectorAll(".sidebar-link").forEach(function (link) {
+
+        const href = link.getAttribute("href");
+
+        if (!href) return;
+
+        const linkPath = new URL(href, window.location.origin)
+            .pathname
+            .toLowerCase();
+
+        if (linkPath === currentPath) {
+            link.classList.add("active");
+        }
+
+    });
+
+});

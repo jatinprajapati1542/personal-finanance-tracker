@@ -1,0 +1,1769 @@
+@using System.Text.Json
+@model personal_finance_Tracker.ViewModels.ReportViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+
+    var categoryLabels = Model.CategoryExpenses
+        .Select(x => x.CategoryName)
+        .ToList();
+
+    var categoryAmounts = Model.CategoryExpenses
+        .Select(x => x.Amount)
+        .ToList();
+
+    var monthlyLabels = Model.MonthlyData
+        .Select(x => x.Month)
+        .ToList();
+
+    var monthlyIncome = Model.MonthlyData
+        .Select(x => x.Income)
+        .ToList();
+
+    var monthlyExpense = Model.MonthlyData
+        .Select(x => x.Expense)
+        .ToList();
+
+    var monthlyBalance = Model.MonthlyData
+        .Select(x => x.Balance)
+        .ToList();
+}
+
+<div class="container-fluid reports-page">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="report-header mb-4">
+
+        <div>
+            <span class="report-badge">
+                <i class="bi bi-bar-chart-line"></i>
+                Financial Analytics
+            </span>
+
+            <h1 class="fw-bold mt-2 mb-1">
+                Financial Reports
+            </h1>
+
+            <p class="text-muted mb-0">
+                Analyze your income, expenses and financial performance.
+            </p>
+        </div>
+
+        <div class="report-actions">
+
+            <a asp-controller="Reports"
+               asp-action="ExportExcel"
+               asp-route-startDate="@Model.StartDate.ToString("yyyy-MM-dd")"
+               asp-route-endDate="@Model.EndDate.ToString("yyyy-MM-dd")"
+               class="btn btn-outline-success">
+
+                <i class="bi bi-file-earmark-excel me-1"></i>
+                Excel
+            </a>
+
+            <a asp-controller="Reports"
+               asp-action="ExportPdf"
+               asp-route-startDate="@Model.StartDate.ToString("yyyy-MM-dd")"
+               asp-route-endDate="@Model.EndDate.ToString("yyyy-MM-dd")"
+               class="btn btn-outline-danger">
+
+                <i class="bi bi-file-earmark-pdf me-1"></i>
+                PDF
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DATE FILTER
+    ====================================================== -->
+
+    <div class="card report-filter-card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="filter-title mb-3">
+                <div class="filter-icon">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+
+                <div>
+                    <h6 class="fw-bold mb-0">
+                        Report Period
+                    </h6>
+
+                    <small class="text-muted">
+                        Select the period you want to analyze.
+                    </small>
+                </div>
+            </div>
+
+            <form asp-controller="Reports"
+                  asp-action="Index"
+                  method="get"
+                  class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+
+                    <label for="startDate"
+                           class="form-label fw-semibold">
+                        Start Date
+                    </label>
+
+                    <input type="date"
+                           id="startDate"
+                           name="startDate"
+                           value="@Model.StartDate.ToString("yyyy-MM-dd")"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label for="endDate"
+                           class="form-label fw-semibold">
+                        End Date
+                    </label>
+
+                    <input type="date"
+                           id="endDate"
+                           name="endDate"
+                           value="@Model.EndDate.ToString("yyyy-MM-dd")"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+
+                        <i class="bi bi-search me-1"></i>
+                        Generate Report
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- QUICK FILTERS -->
+
+            <div class="quick-filters mt-3">
+
+                <span class="small text-muted me-2">
+                    Quick filters:
+                </span>
+
+                <button type="button"
+                        class="btn btn-sm btn-light quick-filter"
+                        data-filter="this-month">
+                    This Month
+                </button>
+
+                <button type="button"
+                        class="btn btn-sm btn-light quick-filter"
+                        data-filter="last-month">
+                    Last Month
+                </button>
+
+                <button type="button"
+                        class="btn btn-sm btn-light quick-filter"
+                        data-filter="last-3-months">
+                    Last 3 Months
+                </button>
+
+                <button type="button"
+                        class="btn btn-sm btn-light quick-filter"
+                        data-filter="this-year">
+                    This Year
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         REPORT PERIOD
+    ====================================================== -->
+
+    <div class="report-period mb-4">
+
+        <div>
+            <i class="bi bi-calendar-check me-2"></i>
+
+            <strong>
+                Report Period:
+            </strong>
+
+            @Model.StartDate.ToString("dd MMM yyyy")
+            -
+            @Model.EndDate.ToString("dd MMM yyyy")
+        </div>
+
+        <span class="period-badge">
+            @Model.TotalTransactions transactions
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUMMARY CARDS
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- Income -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="summary-card income-card">
+
+                <div class="summary-card-top">
+
+                    <div>
+                        <p class="summary-label">
+                            Total Income
+                        </p>
+
+                        <h3>
+                            ₹@Model.TotalIncome.ToString("N2")
+                        </h3>
+                    </div>
+
+                    <div class="summary-icon">
+                        <i class="bi bi-arrow-down-left"></i>
+                    </div>
+
+                </div>
+
+                <div class="summary-footer">
+                    <span>
+                        Money received
+                    </span>
+
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Expense -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="summary-card expense-card">
+
+                <div class="summary-card-top">
+
+                    <div>
+                        <p class="summary-label">
+                            Total Expense
+                        </p>
+
+                        <h3>
+                            ₹@Model.TotalExpense.ToString("N2")
+                        </h3>
+                    </div>
+
+                    <div class="summary-icon">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+
+                </div>
+
+                <div class="summary-footer">
+                    <span>
+                        Money spent
+                    </span>
+
+                    <i class="bi bi-graph-down-arrow"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Balance -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="summary-card balance-card">
+
+                <div class="summary-card-top">
+
+                    <div>
+                        <p class="summary-label">
+                            Net Balance
+                        </p>
+
+                        <h3 class="@(Model.Balance >= 0 ? "text-success" : "text-danger")">
+                            ₹@Model.Balance.ToString("N2")
+                        </h3>
+                    </div>
+
+                    <div class="summary-icon">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+
+                </div>
+
+                <div class="summary-footer">
+                    <span>
+                        Income - Expense
+                    </span>
+
+                    <i class="bi bi-wallet"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Savings -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="summary-card savings-card">
+
+                <div class="summary-card-top">
+
+                    <div>
+                        <p class="summary-label">
+                            Savings Rate
+                        </p>
+
+                        <h3>
+                            @Model.SavingsRate.ToString("N1")%
+                        </h3>
+                    </div>
+
+                    <div class="summary-icon">
+                        <i class="bi bi-piggy-bank"></i>
+                    </div>
+
+                </div>
+
+                <div class="summary-footer">
+                    <span>
+                        Income saved
+                    </span>
+
+                    <i class="bi bi-percent"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANALYSIS CARDS
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-6">
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    <i class="bi bi-tags"></i>
+                </div>
+
+                <div>
+
+                    <span class="analysis-label">
+                        Highest Spending Category
+                    </span>
+
+                    <h5 class="fw-bold mb-1">
+                        @Model.HighestExpenseCategory
+                    </h5>
+
+                    <p class="mb-0 text-muted">
+                        ₹@Model.HighestExpenseAmount.ToString("N2")
+                        spent during this period.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-6">
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    <i class="bi bi-activity"></i>
+                </div>
+
+                <div>
+
+                    <span class="analysis-label">
+                        Financial Performance
+                    </span>
+
+                    @if (Model.Balance > 0)
+                    {
+                        <h5 class="fw-bold text-success mb-1">
+                            Positive Cash Flow
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+                            Your income is higher than your expenses.
+                        </p>
+                    }
+                    else if (Model.Balance < 0)
+                    {
+                        <h5 class="fw-bold text-danger mb-1">
+                            Negative Cash Flow
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+                            Your expenses are higher than your income.
+                        </p>
+                    }
+                    else
+                    {
+                        <h5 class="fw-bold mb-1">
+                            Balanced
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+                            Your income and expenses are equal.
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         CHARTS ROW 1
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- Income vs Expense -->
+
+        <div class="col-lg-6">
+
+            <div class="report-card">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>
+                            Income vs Expense
+                        </h5>
+
+                        <p>
+                            Compare money received and money spent.
+                        </p>
+                    </div>
+
+                    <div class="chart-header-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="reportIncomeExpenseChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Expense Categories -->
+
+        <div class="col-lg-6">
+
+            <div class="report-card">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>
+                            Expense by Category
+                        </h5>
+
+                        <p>
+                            See where your money is going.
+                        </p>
+                    </div>
+
+                    <div class="chart-header-icon">
+                        <i class="bi bi-pie-chart"></i>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="expenseCategoryChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MONTHLY TREND
+    ====================================================== -->
+
+    <div class="report-card mb-4">
+
+        <div class="card-header-custom">
+
+            <div>
+                <h5>
+                    Monthly Financial Trend
+                </h5>
+
+                <p>
+                    Track your income, expenses and balance over time.
+                </p>
+            </div>
+
+            <div class="chart-header-icon">
+                <i class="bi bi-graph-up"></i>
+            </div>
+
+        </div>
+
+        <div class="monthly-chart-container">
+            <canvas id="monthlyTrendChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         EXPENSE CATEGORY BREAKDOWN
+    ====================================================== -->
+
+    <div class="report-card mb-4">
+
+        <div class="card-header-custom">
+
+            <div>
+                <h5>
+                    Expense Breakdown
+                </h5>
+
+                <p>
+                    Detailed breakdown of your spending categories.
+                </p>
+            </div>
+
+        </div>
+
+        @if (Model.CategoryExpenses.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table report-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th style="min-width: 180px;">
+                                Spending
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var category in Model.CategoryExpenses)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="category-name">
+
+                                        <span class="category-dot"></span>
+
+                                        <span>
+                                            @category.CategoryName
+                                        </span>
+
+                                    </div>
+                                </td>
+
+                                <td class="fw-semibold">
+                                    ₹@category.Amount.ToString("N2")
+                                </td>
+
+                                <td>
+                                    <span class="percentage-badge">
+                                        @category.Percentage.ToString("N1")%
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <div class="progress report-progress">
+
+                                        <div class="progress-bar"
+                                             role="progressbar"
+                                             style="width: @Math.Min(category.Percentage, 100)%;">
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-report">
+
+                <div class="empty-icon">
+                    <i class="bi bi-pie-chart"></i>
+                </div>
+
+                <h6>
+                    No expense data
+                </h6>
+
+                <p>
+                    There are no expenses in the selected period.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- =====================================================
+         MONTHLY SUMMARY
+    ====================================================== -->
+
+    <div class="report-card mb-4">
+
+        <div class="card-header-custom">
+
+            <div>
+                <h5>
+                    Monthly Summary
+                </h5>
+
+                <p>
+                    Monthly income, expense and balance details.
+                </p>
+            </div>
+
+        </div>
+
+        @if (Model.MonthlyData.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="table report-table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                Month
+                            </th>
+
+                            <th>
+                                Income
+                            </th>
+
+                            <th>
+                                Expense
+                            </th>
+
+                            <th>
+                                Balance
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var month in Model.MonthlyData)
+                        {
+                            <tr>
+
+                                <td class="fw-semibold">
+                                    @month.Month
+                                </td>
+
+                                <td class="text-success fw-semibold">
+                                    ₹@month.Income.ToString("N2")
+                                </td>
+
+                                <td class="text-danger fw-semibold">
+                                    ₹@month.Expense.ToString("N2")
+                                </td>
+
+                                <td class="fw-bold @(month.Balance >= 0 ? "text-success" : "text-danger")">
+                                    ₹@month.Balance.ToString("N2")
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-report">
+
+                <div class="empty-icon">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+
+                <h6>
+                    No monthly data
+                </h6>
+
+                <p>
+                    There are no transactions in the selected period.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <style>
+
+        /* =====================================================
+           GENERAL
+        ====================================================== */
+
+        .reports-page {
+            padding-bottom: 30px;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        .report-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(13, 110, 253, 0.08);
+            color: #0d6efd;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        /* =====================================================
+           FILTER
+        ====================================================== */
+
+        .report-filter-card {
+            border-radius: 16px;
+        }
+
+        .filter-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            font-size: 1.1rem;
+        }
+
+        .quick-filters {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .quick-filter {
+            border: 1px solid #e9ecef;
+            transition: 0.2s ease;
+        }
+
+        .quick-filter:hover {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+
+        /* =====================================================
+           PERIOD
+        ====================================================== */
+
+        .report-period {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: rgba(13, 110, 253, 0.06);
+            border: 1px solid rgba(13, 110, 253, 0.1);
+            color: #495057;
+        }
+
+        .period-badge {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ====================================================== */
+
+        .summary-card {
+            padding: 22px;
+            border-radius: 18px;
+            background: white;
+            border: 1px solid #edf0f4;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+        }
+
+        .summary-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .summary-label {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .summary-card h3 {
+            margin: 0;
+            font-size: 1.55rem;
+            font-weight: 700;
+        }
+
+        .summary-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .income-card .summary-icon {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+
+        .expense-card .summary-icon {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .balance-card .summary-icon {
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+
+        .savings-card .summary-icon {
+            background: rgba(111, 66, 193, 0.1);
+            color: #6f42c1;
+        }
+
+        .summary-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f1f3;
+            color: #8a9199;
+            font-size: 0.78rem;
+        }
+
+
+        /* =====================================================
+           ANALYSIS
+        ====================================================== */
+
+        .analysis-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid #edf0f4;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .analysis-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 110, 253, 0.08);
+            color: #0d6efd;
+            font-size: 1.2rem;
+        }
+
+        .analysis-label {
+            display: block;
+            color: #8a9199;
+            font-size: 0.78rem;
+            margin-bottom: 3px;
+        }
+
+
+        /* =====================================================
+           REPORT CARDS
+        ====================================================== */
+
+        .report-card {
+            background: white;
+            border: 1px solid #edf0f4;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header-custom {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header-custom h5 {
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .card-header-custom p {
+            margin: 0;
+            color: #8a9199;
+            font-size: 0.82rem;
+        }
+
+        .chart-header-icon {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f7fa;
+            color: #0d6efd;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+        }
+
+        .monthly-chart-container {
+            position: relative;
+            height: 360px;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        .report-table {
+            --bs-table-bg: transparent;
+        }
+
+        .report-table thead th {
+            background: #f8f9fb;
+            color: #6c757d;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 700;
+            padding: 13px 15px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .report-table tbody td {
+            padding: 15px;
+            border-color: #f0f1f3;
+        }
+
+        .report-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .category-name {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 600;
+        }
+
+        .category-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #0d6efd;
+            flex-shrink: 0;
+        }
+
+        .percentage-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #495057;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .report-progress {
+            height: 7px;
+            border-radius: 10px;
+            background: #edf0f4;
+        }
+
+        .report-progress .progress-bar {
+            border-radius: 10px;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ====================================================== */
+
+        .empty-report {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6c757d;
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f7fa;
+            color: #8a9199;
+            font-size: 1.5rem;
+        }
+
+        .empty-report h6 {
+            font-weight: 700;
+            color: #495057;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @* @media (max-width: 991px) {
+
+            .report-header {
+                align-items: flex-start;
+            }
+
+            .summary-card h3 {
+                font-size: 1.35rem;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            .report-header {
+                flex-direction: column;
+            }
+
+            .report-actions {
+                width: 100%;
+            }
+
+            .report-actions .btn {
+                flex: 1;
+            }
+
+            .report-period {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .quick-filters {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .quick-filter {
+                width: 100%;
+            }
+
+            .chart-container {
+                height: 280px;
+            }
+
+            .monthly-chart-container {
+                height: 300px;
+            }
+
+            .report-card {
+                padding: 17px;
+            }
+
+            .analysis-card {
+                align-items: flex-start;
+            }
+
+        }
+
+        @media(max-width: 575px) {
+
+            .report-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .summary-card {
+                padding: 18px;
+            }
+
+            .summary-card h3 {
+                font-size: 1.25rem;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+
+            .report-actions .btn {
+                width: 100%;
+            }
+
+        } *@
+
+    </style>
+}
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        /* =====================================================
+           DATA FROM CONTROLLER
+        ====================================================== */
+
+        const reportIncome =
+            @Html.Raw(JsonSerializer.Serialize(Model.ChartIncome));
+
+        const reportExpense =
+            @Html.Raw(JsonSerializer.Serialize(Model.ChartExpense));
+
+        const categoryLabels =
+            @Html.Raw(JsonSerializer.Serialize(categoryLabels));
+
+        const categoryAmounts =
+            @Html.Raw(JsonSerializer.Serialize(categoryAmounts));
+
+        const monthlyLabels =
+            @Html.Raw(JsonSerializer.Serialize(monthlyLabels));
+
+        const monthlyIncome =
+            @Html.Raw(JsonSerializer.Serialize(monthlyIncome));
+
+        const monthlyExpense =
+            @Html.Raw(JsonSerializer.Serialize(monthlyExpense));
+
+        const monthlyBalance =
+            @Html.Raw(JsonSerializer.Serialize(monthlyBalance));
+
+
+        /* =====================================================
+           COMMON CHART OPTIONS
+        ====================================================== */
+
+        const commonTooltip = {
+
+            callbacks: {
+
+                label: function (context) {
+
+                    let value = context.raw ?? 0;
+
+                    return ' ₹' +
+                        Number(value).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+
+                }
+
+            }
+
+        };
+
+
+        /* =====================================================
+           INCOME VS EXPENSE
+        ====================================================== */
+
+        const incomeExpenseCanvas =
+            document.getElementById(
+                'reportIncomeExpenseChart'
+            );
+
+        if (incomeExpenseCanvas) {
+
+            new Chart(incomeExpenseCanvas, {
+
+                type: 'bar',
+
+                data: {
+
+                    labels: [
+                        'Income',
+                        'Expense'
+                    ],
+
+                    datasets: [
+
+                        {
+                            label: 'Amount',
+
+                            data: [
+                                reportIncome,
+                                reportExpense
+                            ],
+
+                            borderRadius: 8,
+
+                            barThickness: 55
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        },
+
+                        tooltip: commonTooltip
+
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                callback: function (value) {
+
+                                    return '₹' +
+                                        Number(value)
+                                            .toLocaleString('en-IN');
+
+                                }
+
+                            },
+
+                            grid: {
+                                color: '#f0f1f3'
+                            }
+
+                        },
+
+                        x: {
+
+                            grid: {
+                                display: false
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        /* =====================================================
+           EXPENSE CATEGORY CHART
+        ====================================================== */
+
+        const categoryCanvas =
+            document.getElementById(
+                'expenseCategoryChart'
+            );
+
+        if (categoryCanvas) {
+
+            new Chart(categoryCanvas, {
+
+                type: 'doughnut',
+
+                data: {
+
+                    labels: categoryLabels,
+
+                    datasets: [
+
+                        {
+
+                            data: categoryAmounts,
+
+                            borderWidth: 2,
+
+                            hoverOffset: 8
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: '65%',
+
+                    plugins: {
+
+                        legend: {
+
+                            position: 'bottom',
+
+                            labels: {
+
+                                padding: 15,
+
+                                usePointStyle: true
+
+                            }
+
+                        },
+
+                        tooltip: commonTooltip
+
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        /* =====================================================
+           MONTHLY TREND CHART
+        ====================================================== */
+
+        const monthlyCanvas =
+            document.getElementById(
+                'monthlyTrendChart'
+            );
+
+        if (monthlyCanvas) {
+
+            new Chart(monthlyCanvas, {
+
+                type: 'line',
+
+                data: {
+
+                    labels: monthlyLabels,
+
+                    datasets: [
+
+                        {
+
+                            label: 'Income',
+
+                            data: monthlyIncome,
+
+                            tension: 0.35,
+
+                            borderWidth: 2,
+
+                            pointRadius: 4,
+
+                            fill: false
+
+                        },
+
+                        {
+
+                            label: 'Expense',
+
+                            data: monthlyExpense,
+
+                            tension: 0.35,
+
+                            borderWidth: 2,
+
+                            pointRadius: 4,
+
+                            fill: false
+
+                        },
+
+                        {
+
+                            label: 'Balance',
+
+                            data: monthlyBalance,
+
+                            tension: 0.35,
+
+                            borderWidth: 2,
+
+                            pointRadius: 4,
+
+                            borderDash: [5, 5],
+
+                            fill: false
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    interaction: {
+
+                        mode: 'index',
+
+                        intersect: false
+
+                    },
+
+                    plugins: {
+
+                        tooltip: commonTooltip,
+
+                        legend: {
+
+                            position: 'top',
+
+                            labels: {
+
+                                usePointStyle: true,
+
+                                padding: 15
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: false,
+
+                            ticks: {
+
+                                callback: function (value) {
+
+                                    return '₹' +
+                                        Number(value)
+                                            .toLocaleString('en-IN');
+
+                                }
+
+                            },
+
+                            grid: {
+                                color: '#f0f1f3'
+                            }
+
+                        },
+
+                        x: {
+
+                            grid: {
+                                display: false
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        /* =====================================================
+           QUICK DATE FILTERS
+        ====================================================== */
+
+        document
+            .querySelectorAll('.quick-filter')
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    'click',
+                    function () {
+
+                        const filter =
+                            this.dataset.filter;
+
+                        const today =
+                            new Date();
+
+                        let startDate;
+                        let endDate;
+
+
+                        /* THIS MONTH */
+
+                        if (filter === 'this-month') {
+
+                            startDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth(),
+                                1
+                            );
+
+                            endDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth() + 1,
+                                0
+                            );
+
+                        }
+
+
+                        /* LAST MONTH */
+
+                        else if (filter === 'last-month') {
+
+                            startDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth() - 1,
+                                1
+                            );
+
+                            endDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth(),
+                                0
+                            );
+
+                        }
+
+
+                        /* LAST 3 MONTHS */
+
+                        else if (filter === 'last-3-months') {
+
+                            startDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth() - 2,
+                                1
+                            );
+
+                            endDate = new Date(
+                                today.getFullYear(),
+                                today.getMonth() + 1,
+                                0
+                            );
+
+                        }
+
+
+                        /* THIS YEAR */
+
+                        else if (filter === 'this-year') {
+
+                            startDate = new Date(
+                                today.getFullYear(),
+                                0,
+                                1
+                            );
+
+                            endDate = new Date(
+                                today.getFullYear(),
+                                11,
+                                31
+                            );
+
+                        }
+
+
+                        if (!startDate || !endDate) {
+                            return;
+                        }
+
+
+                        function formatDate(date) {
+
+                            const year =
+                                date.getFullYear();
+
+                            const month =
+                                String(
+                                    date.getMonth() + 1
+                                ).padStart(2, '0');
+
+                            const day =
+                                String(
+                                    date.getDate()
+                                ).padStart(2, '0');
+
+                            return `${year}-${month}-${day}`;
+                        }
+
+
+                        document.getElementById(
+                            'startDate'
+                        ).value =
+                            formatDate(startDate);
+
+                        document.getElementById(
+                            'endDate'
+                        ).value =
+                            formatDate(endDate);
+
+                    }
+
+                );
+
+            });
+
+    </script>
+}
