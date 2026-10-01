@@ -313,47 +313,10 @@ public class ExpenseController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-    // GET: /Expense/Delete/5
-    [HttpGet]
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-
-        var userId = _userManager.GetUserId(User);
-
-        if (userId == null)
-        {
-            return Challenge();
-        }
-
-
-        var transaction = await _context.Transactions
-            .Include(t => t.Category)
-            .FirstOrDefaultAsync(t =>
-                t.Id == id &&
-                t.UserId == userId &&
-                t.Type == TransactionType.Expense);
-
-
-        if (transaction == null)
-        {
-            return NotFound();
-        }
-
-
-        return View(transaction);
-    }
-
-
     // POST: /Expense/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var userId = _userManager.GetUserId(User);
 
@@ -362,32 +325,26 @@ public class ExpenseController : Controller
             return Challenge();
         }
 
-
         var transaction = await _context.Transactions
             .FirstOrDefaultAsync(t =>
                 t.Id == id &&
                 t.UserId == userId &&
                 t.Type == TransactionType.Expense);
 
-
         if (transaction == null)
         {
             return NotFound();
         }
-
 
         _context.Transactions.Remove(transaction);
 
         await _context.SaveChangesAsync();
 
-
         TempData["SuccessMessage"] =
             "Expense deleted successfully.";
 
-
         return RedirectToAction(nameof(Index));
     }
-
 
     // GET: /Expense/CreateCategory
     [HttpGet]

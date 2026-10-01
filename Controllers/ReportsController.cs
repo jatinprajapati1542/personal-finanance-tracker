@@ -445,6 +445,16 @@ public class ReportsController : Controller
         }
 
         // =========================================================
+        // SUMMARY COLUMN WIDTHS
+        // =========================================================
+
+        summary.Column("A").Width = 24;
+        summary.Column("B").Width = 18;
+        summary.Column("C").Width = 4;
+        summary.Column("D").Width = 28;
+        summary.Column("E").Width = 18;
+
+        // =========================================================
         // SHEET 2: TRANSACTIONS
         // =========================================================
 
@@ -914,116 +924,115 @@ public class ReportsController : Controller
                             .Bold();
 
                         // SUMMARY CARDS
-                        column.Item()
-                            .Grid(grid =>
-                            {
-                                grid.Columns(4);
-                                grid.Spacing(8);
+                        column.Item().Grid(grid =>
+                        {
+                            grid.Columns(4);
+                            grid.Spacing(8);
 
-                                // Income
-                                grid.Item()
-                                    .Background(Colors.Green.Lighten5)
-                                    .Border(1)
-                                    .BorderColor(Colors.Green.Lighten2)
-                                    .Padding(10)
-                                    .Column(card =>
-                                    {
-                                        card.Spacing(4);
+                            // Income
+                            grid.Item()
+                                .Background(Colors.Green.Lighten5)
+                                .Border(1)
+                                .BorderColor(Colors.Green.Lighten2)
+                                .Padding(10)
+                                .Column(card =>
+                                {
+                                    card.Spacing(4);
 
-                                        card.Item()
-                                            .Text("TOTAL INCOME")
-                                            .FontSize(7)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Grey.Darken1);
+                                    card.Item()
+                                        .Text("TOTAL INCOME")
+                                        .FontSize(7)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Grey.Darken1);
 
-                                        card.Item()
-                                            .Text(
-                                                $"₹{totalIncome:N2}")
-                                            .FontSize(13)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Green.Darken2);
-                                    });
+                                    card.Item()
+                                        .Text(
+                                            $"₹{totalIncome:N2}")
+                                        .FontSize(13)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Green.Darken2);
+                                });
 
-                                // Expense
-                                grid.Item()
-                                    .Background(Colors.Red.Lighten5)
-                                    .Border(1)
-                                    .BorderColor(Colors.Red.Lighten2)
-                                    .Padding(10)
-                                    .Column(card =>
-                                    {
-                                        card.Spacing(4);
+                            // Expense
+                            grid.Item()
+                                .Background(Colors.Red.Lighten5)
+                                .Border(1)
+                                .BorderColor(Colors.Red.Lighten2)
+                                .Padding(10)
+                                .Column(card =>
+                                {
+                                    card.Spacing(4);
 
-                                        card.Item()
-                                            .Text("TOTAL EXPENSE")
-                                            .FontSize(7)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Grey.Darken1);
+                                    card.Item()
+                                        .Text("TOTAL EXPENSE")
+                                        .FontSize(7)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Grey.Darken1);
 
-                                        card.Item()
-                                            .Text(
-                                                $"₹{totalExpense:N2}")
-                                            .FontSize(13)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Red.Darken2);
-                                    });
+                                    card.Item()
+                                        .Text(
+                                            $"₹{totalExpense:N2}")
+                                        .FontSize(13)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Red.Darken2);
+                                });
 
-                                // Balance
-                                grid.Item()
-                                    .Background(Colors.Blue.Lighten5)
-                                    .Border(1)
-                                    .BorderColor(Colors.Blue.Lighten2)
-                                    .Padding(10)
-                                    .Column(card =>
-                                    {
-                                        card.Spacing(4);
+                            // Balance
+                            grid.Item()
+                                .Background(Colors.Blue.Lighten5)
+                                .Border(1)
+                                .BorderColor(Colors.Blue.Lighten2)
+                                .Padding(10)
+                                .Column(card =>
+                                {
+                                    card.Spacing(4);
 
-                                        card.Item()
-                                            .Text("NET BALANCE")
-                                            .FontSize(7)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Grey.Darken1);
+                                    card.Item()
+                                        .Text("NET BALANCE")
+                                        .FontSize(7)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Grey.Darken1);
 
-                                        card.Item()
-                                            .Text(
-                                                $"₹{balance:N2}")
-                                            .FontSize(13)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Blue.Darken2);
-                                    });
+                                    card.Item()
+                                        .Text(
+                                            $"₹{balance:N2}")
+                                        .FontSize(13)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Blue.Darken2);
+                                });
 
-                                // Savings
-                                grid.Item()
-                                    .Background(Colors.Grey.Lighten4)
-                                    .Border(1)
-                                    .BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(10)
-                                    .Column(card =>
-                                    {
-                                        card.Spacing(4);
+                            // Savings
+                            grid.Item()
+                                .Background(Colors.Grey.Lighten4)
+                                .Border(1)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(10)
+                                .Column(card =>
+                                {
+                                    card.Spacing(4);
 
-                                        card.Item()
-                                            .Text("SAVINGS RATE")
-                                            .FontSize(7)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Grey.Darken1);
+                                    card.Item()
+                                        .Text("SAVINGS RATE")
+                                        .FontSize(7)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Grey.Darken1);
 
-                                        card.Item()
-                                            .Text(
-                                                $"{savingsRate:N2}%")
-                                            .FontSize(13)
-                                            .Bold()
-                                            .FontColor(
-                                                Colors.Blue.Darken2);
-                                    });
-                            });
+                                    card.Item()
+                                        .Text(
+                                            $"{savingsRate:N2}%")
+                                        .FontSize(13)
+                                        .Bold()
+                                        .FontColor(
+                                            Colors.Blue.Darken2);
+                                });
+                        });
 
                         // ADDITIONAL SUMMARY
                         column.Item()

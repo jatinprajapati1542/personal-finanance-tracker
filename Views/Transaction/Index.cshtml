@@ -15,38 +15,33 @@
         mb-4">
 
         <div>
+
             <h2 class="fw-bold mb-1">
                 Transactions
             </h2>
 
             <p class="text-muted mb-0">
-                View and manage your income and expense transactions.
+                View, search, and manage your income and expense transactions.
             </p>
+
         </div>
 
+        <div class="d-flex align-items-center gap-2">
 
-        <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-primary-subtle text-primary px-3 py-2">
 
-            <a asp-action="ExportExcel" asp-route-type="@Model.Type" asp-route-categoryId="@Model.CategoryId"
-               asp-route-startDate="@Model.StartDate?.ToString("yyyy-MM-dd")"
-               asp-route-endDate="@Model.EndDate?.ToString("yyyy-MM-dd")" asp-route-search="@Model.Search"
-               class="btn btn-success">
+                <i class="bi bi-receipt me-1"></i>
 
-                <i class="bi bi-file-earmark-excel me-1"></i>
+                @Model.TotalTransactions
+                transaction@(Model.TotalTransactions == 1 ? "" : "s")
 
-                Excel
+            </span>
 
-            </a>
+            <a asp-controller="Transaction" asp-action="Create" class="btn btn-primary">
 
+                <i class="bi bi-plus-lg me-1"></i>
 
-            <a asp-action="ExportPdf" asp-route-type="@Model.Type" asp-route-categoryId="@Model.CategoryId"
-               asp-route-startDate="@Model.StartDate?.ToString("yyyy-MM-dd")"
-               asp-route-endDate="@Model.EndDate?.ToString("yyyy-MM-dd")" asp-route-search="@Model.Search"
-               class="btn btn-danger">
-
-                <i class="bi bi-file-earmark-pdf me-1"></i>
-
-                PDF
+                Add Transaction
 
             </a>
 
@@ -159,12 +154,8 @@
                             </p>
 
                             <h3 class="fw-bold mb-0
-                                @(Model.Balance >= 0
-                                    ? "text-primary"
-                                    : "text-danger")">
-
+                                @(Model.Balance >= 0 ? "text-primary" : "text-danger")">
                                 ₹@Model.Balance.ToString("N2")
-
                             </h3>
 
                         </div>
@@ -235,17 +226,41 @@
 
         <div class="card-body">
 
-            <div class="d-flex justify-content-between
-                align-items-center mb-3">
+            <div class="d-flex flex-column flex-md-row
+                justify-content-between
+                align-items-md-center
+                gap-2
+                mb-3">
 
                 <div>
+
                     <h5 class="fw-semibold mb-1">
                         Filter Transactions
                     </h5>
+
                     <small class="text-muted">
                         Search and filter your transactions.
                     </small>
+
                 </div>
+
+                @if (
+                    Model.Type.HasValue ||
+                    Model.CategoryId.HasValue ||
+                    Model.StartDate.HasValue ||
+                    Model.EndDate.HasValue ||
+                    !string.IsNullOrWhiteSpace(Model.Search)
+                )
+                {
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2">
+
+                        <i class="bi bi-funnel me-1"></i>
+
+                        Filters Applied
+
+                    </span>
+                }
+
             </div>
 
 
@@ -263,7 +278,7 @@
 
                         <div class="input-group">
 
-                            <span class="input-group-text">
+                            <span class="input-group-text bg-white">
                                 <i class="bi bi-search"></i>
                             </span>
 
@@ -388,6 +403,7 @@
                     <!-- Buttons -->
 
                     <div class="col-12">
+
                         <div class="d-flex flex-wrap gap-2">
 
                             <button type="submit" class="btn btn-primary">
@@ -399,13 +415,22 @@
                             </button>
 
 
-                            <a asp-action="Index" class="btn btn-outline-secondary">
+                            @if (
+                                Model.Type.HasValue ||
+                                Model.CategoryId.HasValue ||
+                                Model.StartDate.HasValue ||
+                                Model.EndDate.HasValue ||
+                                !string.IsNullOrWhiteSpace(Model.Search)
+                            )
+                            {
+                                <a asp-action="Index" class="btn btn-outline-secondary">
 
-                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                    <i class="bi bi-x-lg me-1"></i>
 
-                                Reset
+                                    Clear Filters
 
-                            </a>
+                                </a>
+                            }
 
                         </div>
 
@@ -419,14 +444,19 @@
 
     </div>
 
-
     <!-- Transactions -->
+
 
     <div class="card border-0 shadow-sm">
 
+        <!-- Card Header -->
+
         <div class="card-header bg-white border-0 py-3">
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column flex-md-row
+                justify-content-between
+                align-items-md-center
+                gap-2">
 
                 <div>
 
@@ -436,12 +466,38 @@
 
                     <small class="text-muted">
 
-                        @Model.TotalTransactions
-                        transaction@(Model.TotalTransactions == 1 ? "" : "s")
+                        @if (Model.TotalTransactions > 0)
+                        {
+                            <span>
+                                Showing
+                                @Model.Transactions.Count
+                                of
+                                @Model.TotalTransactions
+                                transaction@(Model.TotalTransactions == 1 ? "" : "s")
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                No transactions
+                            </span>
+                        }
 
                     </small>
 
                 </div>
+
+
+                @if (Model.TotalTransactions > 0)
+                {
+                    <span class="badge bg-light text-dark border px-3 py-2">
+
+                        Page @Model.CurrentPage
+                        of
+                        @Model.TotalPages
+
+                    </span>
+                }
 
             </div>
 
@@ -499,7 +555,11 @@
 
                                     <td class="ps-4 text-nowrap">
 
-                                        @transaction.TransactionDate.ToString("dd MMM yyyy")
+                                        <div class="fw-semibold">
+
+                                            @transaction.TransactionDate.ToString("dd MMM yyyy")
+
+                                        </div>
 
                                     </td>
 
@@ -511,7 +571,7 @@
                                         @if (transaction.Type ==
                                             personal_finance_Tracker.Models.TransactionType.Income)
                                         {
-                                            <span class="badge bg-success-subtle text-success">
+                                            <span class="badge bg-success-subtle text-success px-2 py-1">
 
                                                 <i class="bi bi-arrow-down-circle me-1"></i>
 
@@ -521,7 +581,7 @@
                                         }
                                         else
                                         {
-                                            <span class="badge bg-danger-subtle text-danger">
+                                            <span class="badge bg-danger-subtle text-danger px-2 py-1">
 
                                                 <i class="bi bi-arrow-up-circle me-1"></i>
 
@@ -537,11 +597,22 @@
 
                                     <td>
 
-                                        <span class="text-nowrap">
+                                        @if (transaction.Category != null)
+                                        {
+                                            <span class="badge bg-light text-dark border">
 
-                                            @(transaction.Category?.Name ?? "Unknown")
+                                                <i class="bi bi-tag me-1"></i>
 
-                                        </span>
+                                                @transaction.Category.Name
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        }
 
                                     </td>
 
@@ -558,7 +629,9 @@
                                         }
                                         else
                                         {
-                                            @transaction.Description
+                                            <span>
+                                                @transaction.Description
+                                            </span>
                                         }
 
                                     </td>
@@ -566,7 +639,7 @@
 
                                     <!-- Amount -->
 
-                                    <td class="text-end pe-4 text-nowrap">
+                                    <td class="text-end text-nowrap">
 
                                         @if (transaction.Type ==
                                             personal_finance_Tracker.Models.TransactionType.Income)
@@ -587,19 +660,23 @@
                                         }
 
                                     </td>
+
+
+                                    <!-- Actions -->
+
                                     <td class="text-end pe-4">
 
                                         <div class="btn-group btn-group-sm">
 
                                             <a asp-controller="Transaction" asp-action="Edit" asp-route-id="@transaction.Id"
-                                               class="btn btn-outline-primary">
+                                               class="btn btn-outline-primary" title="Edit transaction">
 
                                                 <i class="bi bi-pencil"></i>
 
                                             </a>
 
                                             <a asp-controller="Transaction" asp-action="Delete" asp-route-id="@transaction.Id"
-                                               class="btn btn-outline-danger">
+                                               class="btn btn-outline-danger" title="Delete transaction">
 
                                                 <i class="bi bi-trash"></i>
 
@@ -657,6 +734,16 @@
 
                         </a>
                     }
+                    else
+                    {
+                        <a asp-controller="Transaction" asp-action="Create" class="btn btn-primary">
+
+                            <i class="bi bi-plus-lg me-1"></i>
+
+                            Add Transaction
+
+                        </a>
+                    }
 
                 </div>
             }
@@ -664,6 +751,7 @@
         </div>
 
     </div>
+
 
     @if (Model.Transactions.Any())
     {
@@ -675,6 +763,7 @@
 
         </div>
     }
+
     <!-- Pagination -->
 
     @if (Model.TotalPages > 1)
@@ -723,8 +812,8 @@
                 {
                     <li class="page-item
                         @(i == Model.CurrentPage
-                            ? "active"
-                            : "")">
+? "active"
+: "")">
 
                         <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-type="@Model.Type"
                            asp-route-categoryId="@Model.CategoryId"
@@ -743,8 +832,8 @@
 
                 <li class="page-item
                     @(Model.CurrentPage == Model.TotalPages
-                        ? "disabled"
-                        : "")">
+? "disabled"
+: "")">
 
                     @if (Model.CurrentPage < Model.TotalPages)
                     {
