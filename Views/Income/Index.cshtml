@@ -20,23 +20,17 @@
 <div class="container-fluid">
 
     <!-- Header -->
-    <div class="d-flex flex-column flex-md-row
-                justify-content-between
-                align-items-md-center
-                gap-3
-                mb-4">
-
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
                 <div class="bg-success-subtle text-success rounded-3 p-2">
-                    <i class="bi bi-arrow-down-circle fs-5"></i>
+                    <i class="bi bi-arrow-up-circle fs-5"></i>
                 </div>
 
                 <h2 class="fw-bold mb-0">
                     Income
                 </h2>
             </div>
-
             <p class="text-muted mb-0">
                 View, search, and manage your income records.
             </p>
@@ -50,16 +44,14 @@
                 record@(Model.Count() == 1 ? "" : "s")
             </span>
 
-            <a asp-action="CreateCategory"
-               class="btn btn-outline-success">
+            <a asp-action="CreateCategory" class="btn btn-outline-success">
 
                 <i class="bi bi-tags me-1"></i>
                 Manage Categories
 
             </a>
 
-            <a asp-action="Create"
-               class="btn btn-success">
+            <a asp-action="Create" class="btn btn-success">
 
                 <i class="bi bi-plus-lg me-1"></i>
                 Add Income
@@ -73,17 +65,11 @@
 
     <!-- Summary Card -->
     <div class="row mb-4">
-
         <div class="col-xl-4 col-md-6">
-
             <div class="card border-0 shadow-sm h-100">
-
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between align-items-center">
-
                         <div>
-
                             <p class="text-muted mb-1">
                                 Total Income
                             </p>
@@ -95,13 +81,12 @@
                         </div>
 
                         <div class="bg-success-subtle text-success
-                                    rounded-circle
-                                    d-flex
-                                    align-items-center
-                                    justify-content-center"
-                             style="width: 52px; height: 52px;">
+                            rounded-circle
+                            d-flex
+                            align-items-center
+                            justify-content-center" style="width: 52px; height: 52px;">
 
-                            <i class="bi bi-arrow-down-circle fs-3"></i>
+                            <i class="bi bi-arrow-up-circle fs-3"></i>
 
                         </div>
 
@@ -122,16 +107,16 @@
         <div class="card-body">
 
             <div class="d-flex flex-column flex-md-row
-                        justify-content-between
-                        align-items-md-center
-                        gap-2
-                        mb-3">
+                justify-content-between
+                align-items-md-center
+                gap-2
+                mb-3">
 
                 <div>
 
                     <h5 class="fw-semibold mb-1">
                         <i class="bi bi-funnel me-1 text-success"></i>
-                        Filters
+                        Filter Income
                     </h5>
 
                     <p class="text-muted small mb-0">
@@ -168,10 +153,7 @@
                                 <i class="bi bi-search text-muted"></i>
                             </span>
 
-                            <input type="text"
-                                   name="search"
-                                   value="@ViewBag.Search"
-                                   class="form-control border-start-0"
+                            <input type="text" name="search" value="@ViewBag.Search" class="form-control border-start-0"
                                    placeholder="Search description..." />
 
                         </div>
@@ -186,8 +168,7 @@
                             Category
                         </label>
 
-                        <select name="categoryId"
-                                class="form-select">
+                        <select name="categoryId" class="form-select">
 
                             <option value="">
                                 All Categories
@@ -222,10 +203,7 @@
                             From Date
                         </label>
 
-                        <input type="date"
-                               name="fromDate"
-                               value="@ViewBag.FromDate"
-                               class="form-control" />
+                        <input type="date" name="fromDate" value="@ViewBag.FromDate" class="form-control" />
 
                     </div>
 
@@ -237,22 +215,18 @@
                             To Date
                         </label>
 
-                        <input type="date"
-                               name="toDate"
-                               value="@ViewBag.ToDate"
-                               class="form-control" />
+                        <input type="date" name="toDate" value="@ViewBag.ToDate" class="form-control" />
 
                     </div>
 
 
                     <!-- Buttons -->
                     <div class="col-xl-2 col-12
-                                d-flex
-                                align-items-end
-                                gap-2">
+                        d-flex
+                        align-items-end
+                        gap-2">
 
-                        <button type="submit"
-                                class="btn btn-success flex-grow-1">
+                        <button type="submit" class="btn btn-success flex-grow-1">
 
                             <i class="bi bi-search me-1"></i>
                             Filter
@@ -261,9 +235,7 @@
 
                         @if (hasFilters)
                         {
-                            <a asp-action="Index"
-                               class="btn btn-outline-secondary"
-                               title="Clear Filters">
+                            <a asp-action="Index" class="btn btn-outline-secondary" title="Clear Filters">
 
                                 <i class="bi bi-x-lg"></i>
 
@@ -286,15 +258,16 @@
 
         <!-- Card Header -->
         <div class="card-header bg-white border-0
-                    d-flex flex-column flex-md-row
-                    justify-content-between
-                    align-items-md-center
-                    gap-2
-                    pt-4 px-4">
+            d-flex flex-column flex-md-row
+            justify-content-between
+            align-items-md-center
+            gap-2
+            pt-4 px-4">
 
             <div>
 
                 <h5 class="fw-bold mb-1">
+                    <i class="bi bi-receipt text-success me-2"></i>
                     Income List
                 </h5>
 
@@ -315,6 +288,8 @@
 
         <div class="card-body px-4">
 
+
+            @* TODO : Add if and else condition *@
             <div class="table-responsive">
 
                 <table class="table table-hover align-middle mb-0">
@@ -370,9 +345,9 @@
                                     <td>
 
                                         <span class="badge
-                                                     bg-success-subtle
-                                                     text-success
-                                                     px-2 py-2">
+                                            bg-success-subtle
+                                            text-success
+                                            px-2 py-2">
 
                                             <i class="bi bi-tag me-1"></i>
                                             @(income.Category?.Name ?? "Uncategorized")
@@ -416,26 +391,20 @@
 
                                         <div class="d-inline-flex gap-1">
 
-                                            <a asp-action="Edit"
-                                               asp-route-id="@income.Id"
-                                               class="btn btn-sm btn-outline-success"
-                                               title="Edit Income">
+                                            <a asp-action="Edit" asp-route-id="@income.Id"
+                                               class="btn btn-sm btn-outline-primary me-1" title="Edit Income">
 
                                                 <i class="bi bi-pencil"></i>
 
                                             </a>
 
 
-                                            <form asp-action="Delete"
-                                                  asp-route-id="@income.Id"
-                                                  method="post"
-                                                  class="d-inline"
+                                            <form asp-action="Delete" asp-route-id="@income.Id" method="post" class="d-inline"
                                                   onsubmit="return confirm('Are you sure you want to delete this income?');">
 
                                                 @Html.AntiForgeryToken()
 
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger"
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
                                                         title="Delete Income">
 
                                                     <i class="bi bi-trash"></i>
@@ -460,13 +429,12 @@
                                     <div class="text-center py-5">
 
                                         <div class="bg-success-subtle
-                                                    text-success
-                                                    rounded-circle
-                                                    d-inline-flex
-                                                    align-items-center
-                                                    justify-content-center
-                                                    mb-3"
-                                             style="width: 70px; height: 70px;">
+                                            text-success
+                                            rounded-circle
+                                            d-inline-flex
+                                            align-items-center
+                                            justify-content-center
+                                            mb-3" style="width: 70px; height: 70px;">
 
                                             <i class="bi bi-cash-stack fs-2"></i>
 
@@ -495,13 +463,12 @@
                                         </p>
 
                                         <div class="d-flex
-                                                    justify-content-center
-                                                    gap-2">
+                                            justify-content-center
+                                            gap-2">
 
                                             @if (hasFilters)
                                             {
-                                                <a asp-action="Index"
-                                                   class="btn btn-outline-secondary">
+                                                <a asp-action="Index" class="btn btn-outline-secondary">
 
                                                     <i class="bi bi-x-lg me-1"></i>
                                                     Clear Filters
@@ -509,8 +476,7 @@
                                                 </a>
                                             }
 
-                                            <a asp-action="Create"
-                                               class="btn btn-success">
+                                            <a asp-action="Create" class="btn btn-success">
 
                                                 <i class="bi bi-plus-lg me-1"></i>
                                                 Add Income

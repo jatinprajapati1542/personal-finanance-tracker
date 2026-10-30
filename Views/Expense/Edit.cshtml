@@ -1,121 +1,164 @@
 @model personal_finance_Tracker.Models.Transaction
 
 @{
-    ViewData["Title"] = "Edit Expense";
+ViewData["Title"] = "Edit Expense";
 }
 
 <div class="container-fluid">
 
-    <div class="mb-4">
-        <h2 class="fw-bold">Edit Expense</h2>
+<!-- Header -->
+<div class="d-flex flex-column flex-md-row
+            justify-content-between
+            align-items-md-center
+            gap-3
+            mb-4">
 
-        <p class="text-muted">
-            Update your expense transaction.
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+
+            <div class="bg-danger-subtle text-danger rounded-3 p-2">
+                <i class="bi bi-pencil-square fs-5"></i>
+            </div>
+
+            <h2 class="fw-bold mb-0">
+                Edit Expense
+            </h2>
+
+        </div>
+
+        <p class="text-muted mb-0">
+            Update the details of your expense transaction.
         </p>
     </div>
 
-    <div class="row">
+    <a asp-action="Index"
+       class="btn btn-outline-secondary">
 
-        <div class="col-lg-7">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Expenses
 
-            <div class="card border-0 shadow-sm">
+    </a>
 
-                <div class="card-body p-4">
+</div>
 
-                    <form asp-action="Edit" method="post">
 
-                        @Html.AntiForgeryToken()
+<!-- Form Card -->
+<div class="row justify-content-center">
 
-                        <input type="hidden" asp-for="Id" />
+    <div class="col-xl-9 col-lg-10">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
+        <div class="card border-0 shadow-sm">
 
+            <!-- Card Header -->
+            <div class="card-header bg-danger-subtle border-0 p-4">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="bg-danger text-white rounded-3
+                                d-flex align-items-center
+                                justify-content-center"
+                         style="width: 48px; height: 48px;">
+
+                        <i class="bi bi-pencil-square fs-4"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Update Expense Details
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Modify the information below.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form Body -->
+            <div class="card-body p-4">
+
+                <form asp-action="Edit"
+                      asp-route-id="@Model.Id"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" asp-for="Id" />
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger"
+                         role="alert">
+                    </div>
+
+
+                    <div class="row g-4">
 
                         <!-- Amount -->
-
-                        <div class="mb-3">
+                        <div class="col-md-6">
 
                             <label asp-for="Amount"
-                                   class="form-label">
-                                Amount
+                                   class="form-label fw-semibold">
                             </label>
 
                             <div class="input-group">
 
-                                <span class="input-group-text">
+                                <span class="input-group-text
+                                             bg-danger-subtle
+                                             text-danger
+                                             border-danger-subtle">
+
                                     ₹
+
                                 </span>
 
                                 <input asp-for="Amount"
-                                       class="form-control"
-                                       placeholder="0.00" />
+                                       class="form-control" />
 
                             </div>
 
                             <span asp-validation-for="Amount"
-                                  class="text-danger">
+                                  class="text-danger small">
                             </span>
 
                         </div>
 
 
                         <!-- Category -->
-
-                        <div class="mb-3">
+                        <div class="col-md-6">
 
                             <label asp-for="CategoryId"
-                                   class="form-label">
-                                Category
+                                   class="form-label fw-semibold">
                             </label>
 
-                            <select asp-for="CategoryId"
+                            <select asp-for="Category"
                                     class="form-select"
                                     asp-items="ViewBag.CategoryId">
 
                                 <option value="">
-                                    -- Select Category --
+                                    Select Category
                                 </option>
 
                             </select>
 
                             <span asp-validation-for="CategoryId"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-
-                        <!-- Description -->
-
-                        <div class="mb-3">
-
-                            <label asp-for="Description"
-                                   class="form-label">
-                                Description
-                            </label>
-
-                            <textarea asp-for="Description"
-                                      class="form-control"
-                                      rows="3"
-                                      placeholder="Example: Grocery shopping">
-                            </textarea>
-
-                            <span asp-validation-for="Description"
-                                  class="text-danger">
+                                  class="text-danger small">
                             </span>
 
                         </div>
 
 
                         <!-- Date -->
-
-                        <div class="mb-4">
+                        <div class="col-md-6">
 
                             <label asp-for="TransactionDate"
-                                   class="form-label">
-                                Date
+                                   class="form-label fw-semibold">Date
                             </label>
 
                             <input asp-for="TransactionDate"
@@ -123,31 +166,60 @@
                                    class="form-control" />
 
                             <span asp-validation-for="TransactionDate"
-                                  class="text-danger">
+                                  class="text-danger small">
                             </span>
 
                         </div>
 
 
-                        <button type="submit"
-                                class="btn btn-primary">
+                        <!-- Description -->
+                        <div class="col-12">
 
-                            <i class="bi bi-save me-1"></i>
+                            <label asp-for="Description"
+                                   class="form-label fw-semibold">
+                            </label>
 
-                            Update Expense
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Add an optional description..."></textarea>
 
-                        </button>
+                            <span asp-validation-for="Description"
+                                  class="text-danger small">
+                            </span>
 
-                        <a asp-action="Index"
-                           class="btn btn-outline-secondary ms-2">
+                        </div>
 
-                            Cancel
 
-                        </a>
+                        <!-- Buttons -->
+                        <div class="col-12">
 
-                    </form>
+                            <hr class="my-1">
 
-                </div>
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+
+                                <button type="submit"
+                                        class="btn btn-danger">
+
+                                    <i class="bi bi-save me-1"></i>
+                                    Update Expense
+
+                                </button>
+
+                                <a asp-action="Index"
+                                   class="btn btn-outline-secondary">
+
+                                    Cancel
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
 
             </div>
 
@@ -157,8 +229,10 @@
 
 </div>
 
+</div>
+
 @section Scripts {
 
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 
 }
